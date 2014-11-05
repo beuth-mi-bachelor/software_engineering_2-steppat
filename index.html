@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+    <title>Reha Tool: Startseite</title>
+
+    <meta charset="utf-8">
+    <meta name="description" lang="de" content="Dieses Reha Tool bietet die Möglichkeit Wettbewerbe zu erstellen und Ideen hinzuzufügen. Angemeldete User dürfen eine Idee erstellen zu einem ausgewählten Wettbewerb und andere Beiträge kommentieren">
+    <meta name="keywords" lang="de" content="Wettbewerb, Idee, Erstellen, Reha">
+    <meta name="author" content="AMP-Dynamics">
+
+    <meta name="viewport" content="width=device-width, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="index,follow,noarchive">
+
+    <link href='css/main.css' rel='stylesheet' type='text/css'>
+    <script src="../../software_engineering_ii/js/lib/jquery-2.1.1.min.js"></script>
+</head>
+<body class="reha-tool">
+<div class="container">
+    <header id="foo" class="head top">
+        <a href="index.html"><img class="left logo" src="http://placehold.it/100x100" alt="Logo links"/></a>
+        <ul class="headlist">
+            <li> <a href="index.html" title="Home">Home</a></li>
+            <li> <a href="wettbewerb_liste.html" title="Übersicht Wettbewerbe">Kontakt</a></li>
+            <li> <a href="wettbewerb_neu.html" title=>"Neuer Wettbewerb"</a></li>
+            <li> <a href="index.html" title=>"Logout"</a></li>
+        </ul>
+        <h1>Ideenportal für Reha-Geräte</h1>
+
+
+    </header>
+    <div class="wrapper">
+        <aside>
+            <ul class="inhalt">
+                <form id="doSearch" action="php/suche.php" method="post">
+                    <table class="search" align="center" width="200">
+                        <tr>
+                            <td><input class="name" name="name" type="text" maxlength="255" size="20" /></td>
+                        </tr><tr>
+                        <td colspan="2"><input type="submit" value="Suche" /></td>
+                    </tr>
+                    </table>
+                </form>
+             <ul class="searchErg">
+
+             </ul>
+                <br>
+                <p class="asideHeader">
+                    Navigation
+                </p>
+                <li> <a href="wettbewerb_liste.html">Übersicht Wettbewerbe</a></li>
+                <li> </li>
+                <li> <a href="wettbewerb_neu.html">Neuer Wettbewerb</a></li>
+                <li> <a href="idee_neu.html">Idee erstellen</a></li>
+            </ul>
+        </aside>
+        <article class="article">
+            <div class="contentcontainer">
+                <h2 class="title">Neueste Wettbewerbe</h2>
+                    <img class="wettbewerbPic" src="http://placehold.it/150x150" alt="Wettbewerb Logo" />
+
+
+                <p class="descr">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,
+                </p>
+
+            </div>
+            <br>
+        </article>
+        <div class="clear"> </div>
+    </div>
+    <footer>
+        <a href="index.html" target="_self">Impressum</a>
+        <a href="http://google.de" target="_blank">Google</a>
+        <a href="index.html" target="_blank">Home</a>
+        <div class="clear"> </div>
+    </footer>
+</div>
+</body>
+</html>

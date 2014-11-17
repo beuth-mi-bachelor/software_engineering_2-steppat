@@ -26,7 +26,7 @@
                         <a href="index.html" target="_self">Übersicht Wettbewerbe</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../contest/new.html" target="_self">Neuer Wettbewerb</a>
+                        <a href="new.html" target="_self">Neuer Wettbewerb</a>
                     </li>
                     <li class="nav-item">
                         <a href="../idea/new.html" target="_self">Idee einreichen</a>
@@ -62,7 +62,7 @@
                             <span>Teilnehmer: </span>
                             <span class="contest-participants">5</span>
                         </p>
-                        <a href="../contest/details.html" target="_self">Details</a>
+                        <a href="ml" target="_self">Details</a>
                     </li>
                     <li class="contest-entry">
                         <img class="contest-picture" src="http://placehold.it/150x150" alt="Wettbewerb Bild" />
@@ -78,7 +78,7 @@
                             <span>Teilnehmer: </span>
                             <span class="contest-participants">5</span>
                         </p>
-                        <a href="../contest/details.html" target="_self">Details</a>
+                        <a href="ml" target="_self">Details</a>
                     </li>
                     <li class="contest-entry">
                         <img class="contest-picture" src="http://placehold.it/150x150" alt="Wettbewerb Bild" />
@@ -94,7 +94,7 @@
                             <span>Teilnehmer: </span>
                             <span class="contest-participants">5</span>
                         </p>
-                        <a href="../contest/details.html" target="_self">Details</a>
+                        <a href="ml" target="_self">Details</a>
                     </li>
                     <li class="contest-entry">
                         <img class="contest-picture" src="http://placehold.it/150x150" alt="Wettbewerb Bild" />
@@ -110,7 +110,7 @@
                             <span>Teilnehmer: </span>
                             <span class="contest-participants">5</span>
                         </p>
-                        <a href="../contest/details.html" target="_self">Details</a>
+                        <a href="ml" target="_self">Details</a>
                     </li>
                     <li class="contest-entry">
                         <img class="contest-picture" src="http://placehold.it/150x150" alt="Wettbewerb Bild" />
@@ -126,7 +126,7 @@
                             <span>Teilnehmer: </span>
                             <span class="contest-participants">5</span>
                         </p>
-                        <a href="../contest/details.html" target="_self">Details</a>
+                        <a href="ml" target="_self">Details</a>
                     </li>
                     <li class="contest-entry">
                         <img class="contest-picture" src="http://placehold.it/150x150" alt="Wettbewerb Bild" />
@@ -142,7 +142,7 @@
                             <span>Teilnehmer: </span>
                             <span class="contest-participants">5</span>
                         </p>
-                        <a href="../contest/details.html" target="_self">Details</a>
+                        <a href="ml" target="_self">Details</a>
                     </li>
                 </ul>
             </article>

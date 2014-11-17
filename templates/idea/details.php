@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="de">
 <head>
-    <title>Reha Tool: Wettbewerb bearbeiten</title>
+    <title>Reha Tool: Ideen Detailansicht</title>
 
     <meta charset="utf-8">
     <meta name="description" lang="de" content="Dieses Reha Tool bietet die Möglichkeit Wettbewerbe zu erstellen und Ideen hinzuzufügen. Angemeldete User dürfen eine Idee erstellen zu einem ausgewählten Wettbewerb und andere Beiträge kommentieren">
@@ -26,10 +26,10 @@
                 <a href="index.html" target="_self">Übersicht Wettbewerbe</a>
             </li>
             <li class="nav-item">
-                <a href="../contest/new.html" target="_self">Neuer Wettbewerb</a>
+                <a href="../contest/new.php" target="_self">Neuer Wettbewerb</a>
             </li>
             <li class="nav-item">
-                <a href="../idea/new.html" target="_self">Idee einreichen</a>
+                <a href="l" target="_self">Idee einreichen</a>
             </li>
             <li class="nav-item">
                 <a href="index.html" target="_self">Logout</a>
@@ -46,7 +46,7 @@
 </header>
 <main class="content-wrapper">
     <article class="inner-content-wrapper">
-        <h2 class="title">Wettbewerb bearbeiten</h2>
+        <h2 class="title">Ideen Detailansicht</h2>
 
     </article>
 </main>

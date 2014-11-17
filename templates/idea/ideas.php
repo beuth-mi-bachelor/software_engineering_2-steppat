@@ -26,10 +26,10 @@
                 <a href="index.html" target="_self">Übersicht Wettbewerbe</a>
             </li>
             <li class="nav-item">
-                <a href="../contest/new.html" target="_self">Neuer Wettbewerb</a>
+                <a href="../contest/new.php" target="_self">Neuer Wettbewerb</a>
             </li>
             <li class="nav-item">
-                <a href="../idea/new.html" target="_self">Idee einreichen</a>
+                <a href="l" target="_self">Idee einreichen</a>
             </li>
             <li class="nav-item">
                 <a href="index.html" target="_self">Logout</a>

@@ -17,22 +17,23 @@
 
     </head>
     <body class="reha-tool">
-        <main class="content-wrapper">
-            <article class="inner-content-wrapper">
-                <img src="http://placehold.it/993x559" alt="Logo" />
-                <h2 class="title">Willkommen</h2>
-                <form id="form" action="php/functions.php" method="post">
-                    <label class="field" id="username">
-                        <input class="name-input" type="text" name="username" placeholder="Benutzername">
-                    </label>
-                    <label class="field" id="password">
-                        <input type="password" class="pw-input" name="password" placeholder="Passwort">
-                    </label>
-                    <button type="submit" class="sub"><span>Anmelden</span></button>
-                    <a href="user/register.html" target="_self">Noch keinen Account?</a>
-                </form>
-            </article>
-        </main>
+
+        <?php
+
+            // Klassen einbinden
+            include('classes/controller.php');
+            include('classes/model.php');
+            include('classes/view.php');
+
+            // $_GET und $_POST zusammenfassen
+            $request = array_merge($_GET, $_POST);
+            // Controller erstellen
+            $controller = new Controller($request);
+            // Inhalt der Webanwendung ausgeben
+            echo $controller->display();
+
+        ?>
+
         <script type="text/javascript" src="js/app.js"></script>
     </body>
 </html>

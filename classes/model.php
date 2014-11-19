@@ -119,6 +119,7 @@ class Model {
         public function register() {
             $link = self::openDatabase();
             $username = $_POST["username"];
+            $email = $_POST["email"];
             $password = $_POST["password"];
             $password2 = $_POST["password-repeat"];
 
@@ -134,7 +135,7 @@ class Model {
 
             if($menge == 0)
                 {
-                $eintrag = "INSERT INTO User (username, password) VALUES ('$username', '$password')";
+                $eintrag = "INSERT INTO User (username, password, email) VALUES ('$username', '$password', '$email')";
                 $eintragen = mysql_query($eintrag);
 
                 if($eintragen == true)

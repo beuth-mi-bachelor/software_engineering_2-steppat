@@ -10,7 +10,7 @@
                 <input type="password" class="pw-input" name="password" placeholder="Passwort">
             </label>
             <button type="submit" class="sub"><span>Anmelden</span></button>
-            <a href="user/register.html" target="_self">Noch keinen Account?</a>
+            <a href="templates/register.php" target="_self">Noch keinen Account?</a>
         </form>
     </article>
 </main>

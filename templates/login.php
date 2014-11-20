@@ -1,4 +1,4 @@
-<main class="content-wrapper">
+<main class="content-wrapper fullscreen">
     <article class="inner-content-wrapper">
         <img src="http://placehold.it/993x559" alt="Logo"/>
         <h2 class="title">Willkommen</h2>

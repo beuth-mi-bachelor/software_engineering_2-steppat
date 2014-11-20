@@ -19,6 +19,7 @@ session_start();
     <meta name="robots" content="index,follow,noarchive">
 
     <link href='css/main.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <script src="js/lib/jquery-2.1.1.min.js"></script>
 
 </head>

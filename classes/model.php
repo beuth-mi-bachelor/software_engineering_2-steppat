@@ -190,6 +190,46 @@ class Model {
                 $entry = array("id", "description", "name", "starts_at", "ends_at", "image_url");
                 mysql_close($link);
     }
+
+    public static function addIdea($name, $description, $image_url,$contestId) {
+        $link = self::openDatabase();
+        $sql = "INSERT INTO Idea (`description`, `name`,`image_url`,`contest_id`) VALUES ('$description', '$name','$image_url','$contestId');";
+        $result = mysql_query($sql);
+        if (!$result) {
+            echo mysql_error();
+        }
+        $entry = array("description", "name", "image_url", "contest_id");
+        mysql_close($link);
+    }
+
+    public static function getIdea($ideaId) {
+        $link = self::openDatabase();
+        $sql = "SELECT * FROM Idea WHERE id=$ideaId";
+        $result = mysql_query($sql);
+        if (!$result) {
+            echo mysql_error();
+        }
+        $entry = array(array("id", "user_id", "name", "description", "image_url", "contest_id"));
+        while ($row = mysql_fetch_array($result)) {
+            $entry[] = $row;
+        }
+        // erste Zeile entfernen
+        unset($entry[0]);
+        mysql_close($link);
+        return $entry[1];
+
+    }
+
+    public static function updateIdea($ideaId, $name, $description, $image_url) {
+        $link = self::openDatabase();
+        $sql = "UPDATE `Idea` SET `name`='$name',`description`='$description',`image_url`='$image_url' WHERE `id`='$ideaId'";
+        $result = mysql_query($sql);
+        if (!$result) {
+            echo mysql_error();
+        }
+        $entry = array("id", "description", "name", "starts_at", "ends_at", "image_url");
+        mysql_close($link);
+    }
 }
 
 ?>

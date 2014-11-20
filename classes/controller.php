@@ -103,6 +103,42 @@ class Controller {
                    }
                    break;
 
+            case 'idea-details':
+                if (isset($this->request["id"])) {
+                    $view->setTemplate('idea-details');
+                } else {
+                    $view->setTemplate('contest-details');
+                }
+
+                break;
+
+            case 'idea-edit':
+                if (sizeof($this->request) > 2) {
+                    $model->updateIdea($this->request["id"], $this->request["name"], $this->request["description"], $this->request["image_url"]);
+                    $view->setTemplate('idea-edit');
+                }
+                else if (isset($this->request["id"])) {
+                    $view->setTemplate('idea-details');
+                }
+                else {
+                    $view->setTemplate('idea-details');
+                }
+                break;
+
+            case 'idea-new':
+                if (sizeof($this->request) > 2) {
+                    $model->addIdea($this->request["name"], $this->request["description"], $this->request["image_url"],$this->request["id"]);
+                    $view->setTemplate('contest-detail');
+                }
+
+                if (isset($this->request["id"])) {
+                    $view->setTemplate('idea-new');
+                }
+                else {
+                    $view->setTemplate('contest-detail');
+                }
+                break;
+
             case 'logout':
                 session_destroy();
                 $view->setTemplate('login');

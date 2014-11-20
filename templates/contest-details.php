@@ -21,6 +21,9 @@ include("partials/header.php");
                 <p class="starts_at"><?php echo $contestDetails["starts_at"]; ?></p>
                 <p class="ends_at"><?php echo $contestDetails["ends_at"]; ?></p>
                 <p class="description"><?php echo $contestDetails["description"]; ?></p>
+                <input type="button" name="new_idea" value="Neue Idee"
+                       onClick="self.location.href='index.php?action=idea-new&id=<?php echo $contestDetails["id"]; ?>'">
+            </section>
                 <input type="button" name="edit" value="Bearbeiten"
                 onClick="self.location.href='index.php?action=contest-edit&id=<?php echo $contestDetails["id"]; ?>'">
                 </section>

@@ -1,7 +1,6 @@
 /*global jQuery*/
 
-jQuery(document).ready(function($) {
-
+jQuery(document).ready(function ($) {
 
 
 }(jQuery));

@@ -1,33 +1,57 @@
-<header class="head top">
-    <a href="contests.php"><img class="left logo" src="http://placehold.it/100x100" alt="Logo links"/></a>
-    <nav>
-        <h3 class="no-content">Menü</h3>
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a href="contests.php" target="_self">Übersicht Wettbewerbe</a>
-            </li>
-            <li class="nav-item">
-                <a href="new.html" target="_self">Neuer Wettbewerb</a>
-            </li>
-            <li class="nav-item">
-                <a href="../idea/new.html" target="_self">Idee einreichen</a>
-            </li>
-            <li class="nav-item">
-                <a href="contests.php" target="_self">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    <h1 class="lead-headline">Ideenportal für Reha-Geräte</h1>
-    <form class="search-wrapper" action="../php/search.php" method="post">
-        <fieldset class="fieldset-wrapper">
-            <input class="search-input" type="text" name="suche" placeholder="Suchbegriff">
-            <input class="search-send" type="submit" name="submit" value="suchen">
-        </fieldset>
-    </form>
-</header>
+<?php
+include("partials/header.php");
+?>
 <main class="content-wrapper">
     <article class="inner-content-wrapper">
         <h2 class="title">Wettbewerb Detailansicht</h2>
+
+        <?php
+            global $controller;
+            $request = $controller->request;
+            $contestDetails = Model::getContest($request["id"]);
+            $ideas = Model::getIdeaByContest($request["id"]);
+
+        ?>
+
+        <?php if (sizeof($contestDetails) != 0) : ?>
+
+            <section class="entry">
+                <img src="<?php echo $contestDetails["image_url"]; ?>" alt="<?php echo $contestDetails["name"]; ?>" />
+                <h2><?php echo $contestDetails["name"]; ?></h2>
+                <p class="starts_at"><?php echo $contestDetails["starts_at"]; ?></p>
+                <p class="ends_at"><?php echo $contestDetails["ends_at"]; ?></p>
+                <p class="description"><?php echo $contestDetails["description"]; ?></p>
+            </section>
+
+            <?php if (sizeof($ideas) != 0) : ?>
+
+                <ul class="ideas-entries">
+                    <?php
+                    foreach($ideas as $item ) {
+                        ?>
+                        <li class="idea-entry">
+                            <h2><?php echo $item["name"]; ?></h2>
+                            <img class="idea-picture" src="<?php echo $item["image_url"]; ?>" alt="<?php echo $item["name"]; ?>"/>
+                            <a href="index.php?action=idea-details&id=<?php echo $item["id"]; ?>" target="_self">Details</a>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                </ul>
+
+            <?php endif; ?>
+
+            <?php if (sizeof($ideas) == 0) : ?>
+                <em class="info">Dieser Wettbewerb hat bisher keine eingereichten Ideen</em>
+            <?php endif; ?>
+
+        <?php endif; ?>
+
+        <?php if (sizeof($contestDetails) == 0) : ?>
+
+            <em class="info">Dieser Wettbewerb existiert leider nicht</em>
+
+        <?php endif; ?>
 
     </article>
 </main>

@@ -1,33 +1,29 @@
-<header class="head top">
-    <a href="contests.php"><img class="left logo" src="http://placehold.it/100x100" alt="Logo links"/></a>
-    <nav>
-        <h3 class="no-content">Menü</h3>
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a href="contests.php" target="_self">Übersicht Wettbewerbe</a>
-            </li>
-            <li class="nav-item">
-                <a href="../contest/new.html" target="_self">Neuer Wettbewerb</a>
-            </li>
-            <li class="nav-item">
-                <a href="../idea/new.html" target="_self">Idee einreichen</a>
-            </li>
-            <li class="nav-item">
-                <a href="contests.php" target="_self">Logout</a>
-            </li>
-        </ul>
-    </nav>
-    <h1 class="lead-headline">Ideenportal für Reha-Geräte</h1>
-    <form class="search-wrapper" action="../php/search.php" method="post">
-        <fieldset class="fieldset-wrapper">
-            <input class="search-input" type="text" name="suche" placeholder="Suchbegriff">
-            <input class="search-send" type="submit" name="submit" value="suchen">
-        </fieldset>
-    </form>
-</header>
+<?php
+include("partials/header.php");
+?>
 <main class="content-wrapper">
     <article class="inner-content-wrapper">
         <h2 class="title">Neuer Wettbewerb</h2>
-
+        <form id="form" action="index.php?action=contest-new" method="post">
+            <fieldset>
+                <legend>Daten des Wettbewerbs</legend>
+                <label class="field" id="name">
+                    <input class="name-input" type="text" name="name" placeholder="Name des Wettbewerbs" required>
+                </label>
+                <label class="field" id="starts_at">
+                    <input class="date-input" type="date" name="starts_at" required>
+                </label>
+                <label class="field" id="ends_at">
+                    <input class="date-input" type="date" name="ends_at" required>
+                </label>
+                <label class="field" id="image_url">
+                    <input class="url-input" type="url" name="image_url" placeholder="URL zum Wettbewerbsbild" required>
+                </label>
+                <label class="field" id="description">
+                    <textarea class="description-input" name="description" placeholder="Beschreibung" required></textarea>
+                </label>
+            </fieldset>
+            <button type="submit" class="sub"><span>Wettbewerb erstellen</span></button>
+        </form>
     </article>
 </main>

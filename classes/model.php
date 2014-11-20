@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Klasse für den Datenzugriff
  */
@@ -6,173 +7,178 @@ class Model {
 
     // TODO: Implement functions for contest, Login, Register
 
-    public $DB_HOST = 'localhost';
-    public $DB_NAME = 'se';
-    public $DB_USER = 'se_ii';
-    public $DB_PASSWORD = 'AMPDynamics';
+    private static $DB_HOST = 'localhost';
+    private static $DB_NAME = 'se';
+    private static $DB_USER = 'se_ii';
+    private static $DB_PASSWORD = 'AMPDynamics';
 
-    private static function openDatabase() {
-        $link = mysql_connect($DB_HOST, $DB_USER, $DB_PASSWORD);
+    public static $currentViewContent = [];
+    public static $contests = [];
+    public static $ideas = [];
+
+    public static function openDatabase() {
+        $link = mysql_connect(self::$DB_HOST, self::$DB_USER, self::$DB_PASSWORD);
         if (!$link) {
             die("Kein Server gefunden");
         }
-        //else
-        //    echo "Erfolgreiche Serververbindung";
-        mysql_select_db($DB_NAME) or die("Datenbank nicht gefunden");
+        mysql_select_db(self::$DB_NAME, $link) or die("Datenbank nicht gefunden");
         return $link;
     }
-	/**
-	 * Gibt alle Ideen-Einträge zurück.
-	 * @return Array Array von Blogeinträgen.
-	 */
-	public static function getIdeas(){
-        $link = self::openDatabase();
-        $sql = "SELECT * FROM `idea`";
-        $result = mysql_query($sql);
-        if(!$result)
-            echo mysql_error();
-        $entries = array(array("id", "contest_id", "user_id", "name", "description", "image_url"));
-        // Alle Zeilen auslesen und in das Array $entries schreiben:
-        while($row = mysql_fetch_array($result))
-            $entries[] = $row;
-        // erste Zeile entfernen
-        unset($entries[0]);
-
-        mysql_close($link);
-        return $entries;
-	}
-
-	/**
-	 * Gibt einen bestimmten Idee-Eintrag zurück.
-	 * @param int $id Id des gesuchten Idee-Eintrags
-	 * @return Array Array, dass einen Eintrag repräsentiert, bzw. wenn dieser nicht vorhanden ist, null.
-	 */
-	public static function getIdea($id){
-        $link = self::openDatabase();
-        $sql = "SELECT * FROM `idea` WHERE id =$id";
-        $entry = mysql_query($sql);
-        mysql_close($link);
-        return $entry;
-	}
 
     /**
-	 * Gibt alle Wettbewerbs-Einträge zurück.
-	 * @return Array Array von Wettbewerbseinträgen.
-	 */
-	public static function getContests(){
+     * Login eines Users
+     */
+    public static function login($username, $password) {
+
         $link = self::openDatabase();
-        $sql = "SELECT * FROM `contest`";
+        $password = md5($password);
+
+        $sql = "SELECT username, password FROM User WHERE username LIKE '$username' LIMIT 1";
         $result = mysql_query($sql);
-        if(!$result)
+
+        $row = mysql_fetch_object($result);
+
+        if ($row) {
+            if ($row->password == $password) {
+                $_SESSION["username"] = $username;
+                mysql_close($link);
+                return true;
+            }
+        }
+
+        mysql_close($link);
+        return false;
+
+    }
+
+    public static function isLoggedIn() {
+        if (isset($_SESSION["username"])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Registrieren eines Users
+     */
+    public static function register($username, $email, $password, $password2) {
+        $link = self::openDatabase();
+
+        Controller::$registerError = [];
+
+        if ($password != $password2) {
+            array_push(Controller::$registerError, "Die Passwörter stimmen nicht überein!");
+        }
+        if ($username == "") {
+            array_push(Controller::$registerError, "Ihr Username darf nicht leer sein!");
+        }
+        if ($email == "") {
+            array_push(Controller::$registerError, "Ihre E-Mail-Adresse darf nicht leer sein!");
+        }
+        if ($password == "") {
+            array_push(Controller::$registerError, "Das Passwort darf nicht leer sein!");
+        }
+
+        if (sizeof(Controller::$registerError) != 0) {
+            return false;
+        }
+
+        $password = md5($password);
+
+        $result = mysql_query("SELECT id FROM User WHERE username LIKE '$username'");
+        $num = mysql_num_rows($result);
+
+        if ($num == 0) {
+            $entry = "INSERT INTO User (username, password, email) VALUES ('$username', '$password', '$email')";
+            $resultEntry = mysql_query($entry);
+
+            if ($resultEntry) {
+                mysql_close($link);
+                return true;
+            } else {
+                mysql_close($link);
+                return false;
+            }
+        } else {
+            array_push(Controller::$registerError, "Der Username '".$username."' ist bereits vorhanden");
+            mysql_close($link);
+            return false;
+        }
+
+    }
+
+    /**
+     * Gibt alle Wettbewerbs-Einträge zurück.
+     * @return Array Array von Wettbewerbseinträgen.
+     */
+    public static function getContests() {
+        $link = self::openDatabase();
+        $sql = "SELECT * FROM Contest";
+        $result = mysql_query($sql);
+        if (!$result) {
             echo mysql_error();
+        }
         $entries = array(array("id", "description", "name", "starts_at", "ends_at", "image_url"));
         // Alle Zeilen auslesen und in das Array $entries schreiben:
-        while($row = mysql_fetch_array($result))
+        while ($row = mysql_fetch_array($result)) {
             $entries[] = $row;
+        }
         // erste Zeile entfernen
         unset($entries[0]);
 
         mysql_close($link);
         return $entries;
-	}
-	/**
-    	 * Gibt einen bestimmten Wettbewerbs-Eintrag zurück.
-    	 * @param int $id Id des gesuchten Wettbewerb-Eintrags
-    	 * @return Array Array, dass einen Eintrag repräsentiert, bzw. wenn dieser nicht vorhanden ist, null.
-    	 */
-    	public static function getContest($id){
-            $link = self::openDatabase();
-            $sql = "SELECT * FROM `Contest` WHERE id =$id";
-            $entry = mysql_query($sql);
-            mysql_close($link);
-            return $entry;
-    	}
-        /**
-    	 * Login eines Users
-    	 */
-    	public function login($username,$password)
-        {
-            $link = self::openDatabase();
-            //$username = $_POST["username"];
-            //$password = md5($_POST["password"]);
-
-            $abfrage = "SELECT username, password FROM login WHERE username LIKE '$username' LIMIT 1";
-            $ergebnis = mysql_query($abfrage);
-            $row = mysql_fetch_object($ergebnis);
-
-            if($row->password == $password)
-                {
-                $_SESSION["username"] = $username;
-                echo "Login erfolgreich. <br> <a href=\"contest-overview.php\">Geschützter Bereich</a>";
-                }
-            else
-                {
-                echo "Benutzername und/oder Passwort waren falsch. <a href=\"login.html\"  >Login</a>";
-                }
-        mysql_close($link);
-
-                }
-
-                /**
-                * Registrieren eines Users
-                */
-        public function register() {
-            $link = self::openDatabase();
-            $username = $_POST["username"];
-            $email = $_POST["email"];
-            $password = $_POST["password"];
-            $password2 = $_POST["password-repeat"];
-
-            if($password != $password2 OR $username == "" OR $password == "")
-                {
-                echo "Eingabefehler. Bitte alle Felder korekt ausfüllen. <a href=\"eintragen.html\">Zurück</a>";
-                exit;
-                }
-            $password = md5($password);
-
-            $result = mysql_query("SELECT id FROM User WHERE username LIKE '$username'");
-            $menge = mysql_num_rows($result);
-
-            if($menge == 0)
-                {
-                $eintrag = "INSERT INTO User (username, password, email) VALUES ('$username', '$password', '$email')";
-                $eintragen = mysql_query($eintrag);
-
-                if($eintragen == true)
-                    {
-                    echo "Benutzername <b>$username</b> wurde erstellt. <a href=\"login.html\">Login</a>";
-                    }
-                else
-                    {
-                    echo "Fehler beim Speichern des Benutzernames. <a href=\"register.html\">Zurück</a>";
-                    }
-                }
-            else
-                {
-                echo "Benutzername schon vorhanden. <a href=\"eintragen.html\">Zurück</a>";
-                }
-            mysql_close($link);
-
-                    }
+    }
 
     /**
-     * @param $nr
-     * @param $name
-     * @param $preis
+     * Gibt einen bestimmten Wettbewerbs-Eintrag zurück.
+     * @param int $id Id des gesuchten Wettbewerb-Eintrags
+     * @return Array Array, dass einen Eintrag repräsentiert, bzw. wenn dieser nicht vorhanden ist, null.
      */
-    public static function appendIdea($contest_id, $user_id, $name, $descripton, $image_url){
+    public static function getContest($id) {
         $link = self::openDatabase();
-        $sql = "INSERT INTO $DB_NAME.`idea` (`id`, `contest_id`, `user_id`, `name`, `descripton`, `image_url`)
-                VALUES (NULL , '$contest_id', '$user_id', '$name', '$descripton', '$image_url');";
-        mysql_query($sql);
+        $sql = "SELECT * FROM Contest WHERE id=$id";
+        $result = mysql_query($sql);
+        if (!$result) {
+            echo mysql_error();
+        }
+        $entry = array(array("id", "description", "name", "starts_at", "ends_at", "image_url"));
+        while ($row = mysql_fetch_array($result)) {
+            $entry[] = $row;
+        }
+        // erste Zeile entfernen
+        unset($entry[0]);
         mysql_close($link);
-	}
-	public static function appendContest($contest_id, $user_id, $name, $descripton, $image_url){
-            $link = self::openDatabase();
-            $sql = "INSERT INTO $DB_NAME.`Contest` (`id`, `description`, `name`, `starts_at`, `ends_at`, `image_url`)
-                    VALUES (NULL , '$description', '$name', '$starts_at', '$ends_at', '$image_url');";
-            mysql_query($sql);
-            mysql_close($link);
-    	}
+        return $entry[1];
+    }
+
+    public static function addContest($name, $description, $image_url, $starts_at, $ends_at) {
+        $link = self::openDatabase();
+        $sql = "INSERT INTO Contest (`description`, `name`, `starts_at`, `ends_at`, `image_url`) VALUES ('$description', '$name', '$starts_at', '$ends_at', '$image_url');";
+        $result = mysql_query($sql);
+        if (!$result) {
+            echo mysql_error();
+        }
+        $entry = array("id", "description", "name", "starts_at", "ends_at", "image_url");
+        mysql_close($link);
+    }
+
+    public static function getIdeaByContest($contestId) {
+        $link = self::openDatabase();
+        $sql = "SELECT * FROM Idea WHERE contest_id=$contestId";
+        $result = mysql_query($sql);
+        if (!$result) {
+            echo mysql_error();
+        }
+        $entries = array(array("id", "user_id", "name", "description", "image_url", "contest_id"));
+        while ($row = mysql_fetch_array($result)) {
+            $entries[] = $row;
+        }
+        // erste Zeile entfernen
+        unset($entries[0]);
+        mysql_close($link);
+        return $entries;
+    }
 }
+
 ?>

@@ -89,7 +89,7 @@ class Model {
         $num = mysql_num_rows($result);
 
         if ($num == 0) {
-            $entry = "INSERT INTO User (username, password, email) VALUES ('$username', '$password', '$email')";
+            $entry = "INSERT INTO User (username, password, email, created_at, updated_at) VALUES ('$username', '$password', '$email', now(), now())";
             $resultEntry = mysql_query($entry);
 
             if ($resultEntry) {

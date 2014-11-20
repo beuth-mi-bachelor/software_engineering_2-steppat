@@ -179,6 +179,17 @@ class Model {
         mysql_close($link);
         return $entries;
     }
+
+    public static function updateContest($contestId, $name, $description, $image_url, $starts_at, $ends_at) {
+        $link = self::openDatabase();
+        $sql = "UPDATE `Contest` SET `name`='$name',`description`='$description',`image_url`='$image_url',`starts_at`='$starts_at',`ends_at`='$ends_at' WHERE `id`='$contestId'";
+        $result = mysql_query($sql);
+                if (!$result) {
+                    echo mysql_error();
+                }
+                $entry = array("id", "description", "name", "starts_at", "ends_at", "image_url");
+                mysql_close($link);
+    }
 }
 
 ?>

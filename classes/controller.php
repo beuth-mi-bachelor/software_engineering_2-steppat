@@ -89,6 +89,19 @@ class Controller {
 
                 break;
 
+            case 'contest-edit':
+                if (isset($this->request["id"])) {
+                   $view->setTemplate('contest-edit');
+                   }
+                else if (sizeof($this->request) > 1) {
+                   $model->updateContest($this->request["id"], $this->request["name"], $this->request["description"], $this->request["image_url"], $this->request["starts_at"], $this->request["ends_at"]);
+                   $view->setTemplate('contest-overview');
+                   }
+                   else {
+                   $view->setTemplate('contest-overview');
+                   }
+                   break;
+
             case 'logout':
                 session_destroy();
                 $view->setTemplate('login');

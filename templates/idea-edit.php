@@ -23,7 +23,7 @@ include("partials/header.php");
                     <textarea class="description-input" name="description" required><?php echo $modelDetails["description"]; ?></textarea>
                 </label>
             </fieldset>
-            <button type="submit" class="sub"><span>Wettbewerb speichern</span></button>
+            <button type="submit" class="sub"><span>Idee speichern</span></button>
         </form>
     </article>
 </main>

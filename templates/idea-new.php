@@ -15,7 +15,7 @@ include("partials/header.php");
                     <input class="name-input" type="text" name="name" placeholder="Name der Idee" required>
                 </label>
                 <label class="field" id="image_url">
-                    <input class="url-input" type="url" name="image_url" placeholder="URL zum Wettbewerbsbild" required>
+                    <input class="url-input" type="url" name="image_url" placeholder="URL zum Ideenbild" required>
                 </label>
                 <label class="field" id="description">
                     <textarea class="description-input" name="description" placeholder="Beschreibung" required></textarea>

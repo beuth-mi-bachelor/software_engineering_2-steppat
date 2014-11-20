@@ -115,10 +115,10 @@ class Controller {
             case 'idea-edit':
                 if (sizeof($this->request) > 2) {
                     $model->updateIdea($this->request["id"], $this->request["name"], $this->request["description"], $this->request["image_url"]);
-                    $view->setTemplate('idea-edit');
+                    $view->setTemplate('idea-details');
                 }
                 else if (isset($this->request["id"])) {
-                    $view->setTemplate('idea-details');
+                    $view->setTemplate('idea-edit');
                 }
                 else {
                     $view->setTemplate('idea-details');
@@ -128,14 +128,14 @@ class Controller {
             case 'idea-new':
                 if (sizeof($this->request) > 2) {
                     $model->addIdea($this->request["name"], $this->request["description"], $this->request["image_url"],$this->request["id"]);
-                    $view->setTemplate('contest-detail');
+                    $view->setTemplate('contest-details');
                 }
 
-                if (isset($this->request["id"])) {
+                else if (isset($this->request["id"])) {
                     $view->setTemplate('idea-new');
                 }
                 else {
-                    $view->setTemplate('contest-detail');
+                    $view->setTemplate('contest-details');
                 }
                 break;
 

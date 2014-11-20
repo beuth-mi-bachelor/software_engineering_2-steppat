@@ -10,6 +10,7 @@ class Controller{
 	 */
 	public function __construct($request){
 		$this->request = $request;
+
 		// wenn keine Action im Request ausgewählt ist, wird das Template "erfassen" als
 		// Standard genommen (z.B. beim ersten Aufruf der Seite)
 		$this->action = !empty($request['action']) ? $request['action'] : 'login';
@@ -24,9 +25,10 @@ class Controller{
 		switch($this->action){
 
 // TODO: Implement all cases where template-files are created
-/*
-			case 'Erfassen':
-				$view->setTemplate('erfassen');
+
+			case 'login':
+                //Model::login($this->request['username'], $this->request['password']);
+				$view->setTemplate('login');
 				break;
 
             case 'Speichern':
@@ -41,7 +43,7 @@ class Controller{
                 //var_dump($entries);
                 $view->assignEntries($entries);
 				break;
-*/
+
 		}
 		return $view->loadTemplate();
 	}

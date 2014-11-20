@@ -2,7 +2,7 @@
     <article class="inner-content-wrapper">
         <img src="http://placehold.it/993x559" alt="Logo" />
         <h2 class="title">Willkommen</h2>
-        <form id="form" action="php/functions.php" method="post">
+        <form id="form" action="classes/controller.php" method="post">
             <label class="field" id="username">
                 <input class="name-input" type="text" name="username" placeholder="Benutzername">
             </label>

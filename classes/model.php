@@ -90,11 +90,11 @@ class Model {
         /**
     	 * Login eines Users
     	 */
-    	public function login()
+    	public function login($username,$password)
         {
             $link = self::openDatabase();
-            $username = $_POST["username"];
-            $password = md5($_POST["password"]);
+            //$username = $_POST["username"];
+            //$password = md5($_POST["password"]);
 
             $abfrage = "SELECT username, password FROM login WHERE username LIKE '$username' LIMIT 1";
             $ergebnis = mysql_query($abfrage);
@@ -107,7 +107,7 @@ class Model {
                 }
             else
                 {
-                echo "Benutzername und/oder Passwort waren falsch. <a href=\"login.html\">Login</a>";
+                echo "Benutzername und/oder Passwort waren falsch. <a href=\"login.html\"  >Login</a>";
                 }
         mysql_close($link);
 

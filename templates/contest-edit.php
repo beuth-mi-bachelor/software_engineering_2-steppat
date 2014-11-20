@@ -10,7 +10,7 @@ include("partials/header.php");
                     $contestDetails = Model::getContest($request["id"]);
 
                 ?>
-        <form id="form" action="index.php?action=contest-edit&id=<?php echo $item["id"]; ?>" method="post">
+        <form id="form" action="index.php?action=contest-edit&id=<?php echo $request["id"]; ?>" method="post">
             <fieldset>
                 <legend>Daten des Wettbewerbs</legend>
                 <label class="field" id="name">

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.12
+-- version 4.2.10
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Erstellungszeit: 20. Nov 2014 um 17:03
--- Server Version: 5.5.34
--- PHP-Version: 5.5.10
+-- Erstellungszeit: 21. Nov 2014 um 09:29
+-- Server Version: 5.5.38
+-- PHP-Version: 5.6.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -25,16 +25,21 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `Contest` (`id`, `description`, `name`, `starts_at`, `ends_at`, `image_url`) VALUES
-(1, 'Test-Beschreibung', 'Test', '2014-11-12 23:00:00', '2014-11-27 23:00:00', 'http://placehold.it/100x100/'),
-(2, 'dfsgdfhfdg dfg dfgh dfg dfgh\r\ndfgdfhgfdh\r\n\r\n\r\ndfgdfhdghdfghdg\r\nhd\r\nghfd\r\nghfdgfdfgdfgd', 'Test 2', '2014-10-31 23:00:00', '2014-11-29 23:00:00', 'http://placehold.it/100x100/333');
+(1, 'ss', 'Test ', '2014-11-29 23:00:00', '2015-01-11 23:00:00', 'http://placehold.it/100x100'),
+(2, 'dfsgdfhfdg dfg dfgh dfg dfgh\r\ndfgdfhgfdh\r\n\r\n\r\ndfgdfhdghdfghdg\r\nhd\r\nghfd\r\nghfdgfdfgdfgd', 'Test 2', '2014-10-31 23:00:00', '2014-11-29 23:00:00', 'http://placehold.it/100x100/333'),
+(3, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et e', 'Gehhilfe 2.0', '2014-11-29 23:00:00', '2015-01-30 23:00:00', 'http://placehold.it/100x100');
 
 --
 -- Daten für Tabelle `Idea`
 --
 
 INSERT INTO `Idea` (`id`, `contest_id`, `user_id`, `name`, `description`, `image_url`) VALUES
-(0, 1, 1, 'Idee Test 1', 'Beschreibung hier\r\n\r\nund \r\n\r\nda und so', 'http://placehold.it/50x50/db0000'),
-(1, 1, 1, 'Idee Test 2', 'Beschreibung hier\r\n\r\nund \r\n\r\nda und so', 'http://placehold.it/50x50/db0000');
+(1, 1, 0, 'haa', 'dddddd', 'http://placehold.it/100x100'),
+(2, 1, NULL, 'idee 2', 'ddsdfgddss', 'http://placehold.it/100x100'),
+(3, 1, NULL, 'idee 3', 'gggg', 'http://placehold.it/100x100'),
+(4, 1, NULL, 'idee 4', 'rrrr', 'http://placehold.it/100x100'),
+(5, 1, 3, 'halloooo', 'ddddggg', 'http://placehold.it/100x100'),
+(6, 1, 3, 'halloooo', 'ddddggg', 'http://placehold.it/100x100');
 
 --
 -- Daten für Tabelle `User`

@@ -33,7 +33,7 @@ class Model {
         $link = self::openDatabase();
         $password = md5($password);
 
-        $sql = "SELECT username, password FROM User WHERE username LIKE '$username' LIMIT 1";
+        $sql = "SELECT username, password, id FROM User WHERE username LIKE '$username' LIMIT 1";
         $result = mysql_query($sql);
 
         $row = mysql_fetch_object($result);
@@ -41,6 +41,7 @@ class Model {
         if ($row) {
             if ($row->password == $password) {
                 $_SESSION["username"] = $username;
+                $_SESSION["user-id"] = $row->id;
                 mysql_close($link);
                 return true;
             }
@@ -193,7 +194,8 @@ class Model {
 
     public static function addIdea($name, $description, $image_url,$contestId) {
         $link = self::openDatabase();
-        $sql = "INSERT INTO Idea (`description`, `name`,`image_url`,`contest_id`) VALUES ('$description', '$name','$image_url','$contestId');";
+        $user_id = $_SESSION["user-id"];
+        $sql = "INSERT INTO Idea (`user_id`, `description`, `name`,`image_url`,`contest_id`) VALUES ('$user_id', '$description', '$name','$image_url','$contestId');";
         $result = mysql_query($sql);
         if (!$result) {
             echo mysql_error();

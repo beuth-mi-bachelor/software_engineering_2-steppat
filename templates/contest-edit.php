@@ -17,10 +17,10 @@ include("partials/header.php");
                     <input class="name-input" type="text" name="name" value="<?php echo $contestDetails["name"]; ?>" required>
                 </label>
                 <label class="field" id="starts_at">
-                    <input class="date-input" type="datetime" name="starts_at" value="<?php echo $contestDetails["starts_at"]; ?>"required>
+                    <input class="date-input" type="date" name="starts_at" value="<?php echo date('Y-m-d',strtotime($contestDetails["starts_at"])); ?>" required>
                 </label>
                 <label class="field" id="ends_at">
-                    <input class="date-input" type="datetime" name="ends_at" value="<?php echo $contestDetails["ends_at"]; ?>"required>
+                    <input class="date-input" type="date" name="ends_at" value="<?php echo date('Y-m-d',strtotime($contestDetails["ends_at"])); ?>" required>
                 </label>
                 <label class="field" id="image_url">
                     <input class="url-input" type="url" name="image_url" value="<?php echo $contestDetails["image_url"]; ?>" required>

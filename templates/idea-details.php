@@ -12,9 +12,9 @@ include("partials/header.php");
 
         ?>
 
-        <li class="idea-entry">
+        <li class="entry">
             <h2><?php echo $ideaDetails["name"]; ?></h2>
-            <img class="idea-picture" src="<?php echo $ideaDetails["image_url"]; ?>" alt="<?php echo $item["name"]; ?>"/>
+            <img class="idea-picture" src="<?php echo $ideaDetails["image_url"]; ?>" alt="<?php echo $item["name"]; ?>"/></br></br></br></br></br></br>
             <p><?php echo $ideaDetails["description"]; ?></p>
             <a href="index.php?action=idea-edit&id=<?php echo $ideaDetails["id"]; ?>" target="_self">Bearbeiten</a>
         </li>

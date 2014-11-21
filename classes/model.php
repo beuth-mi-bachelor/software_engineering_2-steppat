@@ -80,16 +80,14 @@ class Model {
             array_push(Controller::$registerError, "Das Passwort darf nicht leer sein!");
         }
 
-        if (sizeof(Controller::$registerError) != 0) {
-            return false;
-        }
+
 
         $password = md5($password);
 
         $result = mysql_query("SELECT id FROM User WHERE username LIKE '$username'");
         $num = mysql_num_rows($result);
 
-        if ($num == 0) {
+        if ($num == 0 && sizeof(Controller::$registerError) == 0) {
             $entry = "INSERT INTO User (username, password, email, created_at, updated_at) VALUES ('$username', '$password', '$email', now(), now())";
             $resultEntry = mysql_query($entry);
 

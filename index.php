@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL ^ E_DEPRECATED);
 ini_set("display_errors", 1);
+
 session_start();
 ?>
 <!DOCTYPE HTML>
@@ -31,6 +32,12 @@ session_start();
 include('classes/controller.php');
 include('classes/model.php');
 include('classes/view.php');
+
+require_once "bootstrap.php";
+require_once "entities/User.php";
+
+//getting the EntityManager
+
 
 // $_GET und $_POST zusammenfassen
 $request = array_merge($_GET, $_POST);

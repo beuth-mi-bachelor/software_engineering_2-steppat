@@ -5,12 +5,10 @@
  */
 class Model {
 
-    // TODO: Implement functions for contest, Login, Register
-
-    private static $DB_HOST = 'localhost';
-    private static $DB_NAME = 'se';
-    private static $DB_USER = 'se_ii';
-    private static $DB_PASSWORD = 'AMPDynamics';
+    public static $DB_HOST = 'localhost';
+    public static $DB_NAME = 'se';
+    public static $DB_USER = 'se_ii';
+    public static $DB_PASSWORD = 'AMPDynamics';
 
     public static $currentViewContent = [];
     public static $contests = [];
@@ -63,7 +61,10 @@ class Model {
      * Registrieren eines Users
      */
     public static function register($username, $email, $password, $password2) {
-        $link = self::openDatabase();
+
+        global $entityManager;
+
+        $userRepo = $entityManager->getRepository('User');
 
         Controller::$registerError = [];
 
@@ -80,27 +81,26 @@ class Model {
             array_push(Controller::$registerError, "Das Passwort darf nicht leer sein!");
         }
 
-
-
         $password = md5($password);
 
-        $result = mysql_query("SELECT id FROM User WHERE username LIKE '$username'");
-        $num = mysql_num_rows($result);
+        $findUser = $userRepo->findBy( array('username' => $username));
 
-        if ($num == 0 && sizeof(Controller::$registerError) == 0) {
-            $entry = "INSERT INTO User (username, password, email, created_at, updated_at) VALUES ('$username', '$password', '$email', now(), now())";
-            $resultEntry = mysql_query($entry);
+        if (sizeof($findUser) == 0 && sizeof(Controller::$registerError) == 0) {
+            $newUser = new User();
+            $newUser->setUsername($username);
+            $newUser->setPassword($password);
+            $newUser->setEmail($email);
 
-            if ($resultEntry) {
-                mysql_close($link);
-                return true;
-            } else {
-                mysql_close($link);
+            try {
+                $entityManager->persist($newUser);
+                $entityManager->flush();
+            } catch (Doctrine\DBAL\DBALException $e) {
                 return false;
             }
+            return true;
+
         } else {
             array_push(Controller::$registerError, "Der Username '".$username."' ist bereits vorhanden");
-            mysql_close($link);
             return false;
         }
 

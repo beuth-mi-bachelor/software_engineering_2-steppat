@@ -29,12 +29,11 @@ session_start();
 <?php
 
 // Klassen einbinden
-include('classes/controller.php');
-include('classes/model.php');
-include('classes/view.php');
+require_once('classes/controller.php');
+require_once('classes/model.php');
+require_once('classes/view.php');
 
 require_once "bootstrap.php";
-require_once "entities/User.php";
 
 //getting the EntityManager
 

@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../entities/User.php";
 require_once __DIR__ . "/../entities/Contest.php";
+require_once __DIR__ . "/../entities/Idea.php";
 
 /**
  * Klasse für den Datenzugriff
@@ -201,61 +202,87 @@ class Model {
     }
 
     public static function getIdeaByContest($contestId) {
-        $link = self::openDatabase();
-        $sql = "SELECT * FROM Idea WHERE contest_id=$contestId";
-        $result = mysql_query($sql);
-        if (!$result) {
-            echo mysql_error();
+
+        global $entityManager;
+
+        $ideaRepo = $entityManager->getRepository('Idea');
+        $allEntries = $ideaRepo ->findBy(array('contest_id' => $contestId));
+
+        $entries = array();
+
+        // Alle Zeilen auslesen und in das Array $entries schreiben:
+        foreach ($allEntries as $entry) {
+            if ($entry instanceof Idea) {
+                $entries[] = array(
+                    "id" => $entry->getId(),
+                    "description" => $entry->getDescription(),
+                    "name" => $entry->getName(),
+                    "contest_id" => $entry->getContestId(),
+                    "user_id" => $entry->getUserId(),
+                    "image_url" => $entry->getImageUrl()
+                );
+            }
         }
-        $entries = array(array("id", "user_id", "name", "description", "image_url", "contest_id"));
-        while ($row = mysql_fetch_array($result)) {
-            $entries[] = $row;
-        }
-        // erste Zeile entfernen
-        unset($entries[0]);
-        mysql_close($link);
         return $entries;
     }
 
-    public static function addIdea($name, $description, $image_url,$contestId) {
-        $link = self::openDatabase();
-        $user_id = $_SESSION["user-id"];
-        $sql = "INSERT INTO Idea (`user_id`, `description`, `name`,`image_url`,`contest_id`) VALUES ('$user_id', '$description', '$name','$image_url','$contestId');";
-        $result = mysql_query($sql);
-        if (!$result) {
-            echo mysql_error();
+    public static function addIdea($name, $description, $image_url, $contestId) {
+
+        global $entityManager;
+
+        $idea = new Idea();
+        $idea->setDescription($description);
+        $idea->setContestId($contestId);
+        $idea->setImageUrl($image_url);
+        $idea->setName($name);
+        $idea->setUserId($_SESSION["user-id"]);
+        try {
+            $entityManager->persist($idea);
+            $entityManager->flush();
+        } catch (Doctrine\DBAL\DBALException $e) {
+            return false;
         }
-        $entry = array("description", "name", "image_url", "contest_id");
-        mysql_close($link);
+        return true;
+
     }
 
     public static function getIdea($ideaId) {
-        $link = self::openDatabase();
-        $sql = "SELECT * FROM Idea WHERE id=$ideaId";
-        $result = mysql_query($sql);
-        if (!$result) {
-            echo mysql_error();
+
+        global $entityManager;
+
+        $contestRepo = $entityManager->getRepository('Idea');
+        $entry = $contestRepo ->find($ideaId);
+
+        if (isset($entry) && $entry instanceof Idea) {
+            return array(
+                "id" => $entry->getId(),
+                "description" => $entry->getDescription(),
+                "name" => $entry->getName(),
+                "contest_id" => $entry->getContestId(),
+                "user_id" => $entry->getUserId(),
+                "image_url" => $entry->getImageUrl()
+            );
         }
-        $entry = array(array("id", "user_id", "name", "description", "image_url", "contest_id"));
-        while ($row = mysql_fetch_array($result)) {
-            $entry[] = $row;
-        }
-        // erste Zeile entfernen
-        unset($entry[0]);
-        mysql_close($link);
-        return $entry[1];
+        return null;
 
     }
 
     public static function updateIdea($ideaId, $name, $description, $image_url) {
-        $link = self::openDatabase();
-        $sql = "UPDATE `Idea` SET `name`='$name',`description`='$description',`image_url`='$image_url' WHERE `id`='$ideaId'";
-        $result = mysql_query($sql);
-        if (!$result) {
-            echo mysql_error();
+        global $entityManager;
+
+        $idea = new Idea();
+        $idea->setDescription($description);
+        $idea->setId($ideaId);
+        $idea->setImageUrl($image_url);
+        $idea->setName($name);
+        $idea->setUserId($_SESSION["user-id"]);
+        try {
+            $entityManager->merge($idea);
+            $entityManager->flush();
+        } catch (Doctrine\DBAL\DBALException $e) {
+            return false;
         }
-        $entry = array("id", "description", "name", "starts_at", "ends_at", "image_url");
-        mysql_close($link);
+        return true;
     }
 }
 

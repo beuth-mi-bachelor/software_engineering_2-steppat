@@ -137,6 +137,27 @@ class Model {
         return $entries;
     }
 
+     public static function searchContest($name) {
+
+            global $entityManager;
+
+                    $contestRepo = $entityManager->getRepository('Contest');
+                    $entry->findBy( array('name' => $name));
+
+                    if (isset($entry) && $entry instanceof Contest) {
+                                return array(
+                                    "id" => $entry->getId(),
+                                    "description" => $entry->getDescription(),
+                                    "name" => $entry->getName(),
+                                    "starts_at" => date_format($entry->getStartsAt(), 'd.m.Y H:i'),
+                                    "ends_at" => date_format($entry->getEndsAt(), 'd.m.Y H:i'),
+                                    "image_url" => $entry->getImageUrl()
+                                );
+                    }
+                    return null;
+        }
+
+
     /**
      * Gibt einen bestimmten Wettbewerbs-Eintrag zurück.
      * @param int $id Id des gesuchten Wettbewerb-Eintrags

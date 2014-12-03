@@ -144,6 +144,17 @@ class Controller {
                 $view->setTemplate('login');
                 break;
 
+            case 'search':
+                if (isset($this->request["search"])) {
+                    //$model->searchContest($this->request["search"]);
+                    $view->setTemplate('search');
+                }
+                else {
+                   $view->setTemplate('contest-overview');
+                }
+
+                break;
+
         }
         return $view->loadTemplate();
     }

@@ -36,7 +36,7 @@ class Model {
 
         $userRepo = $entityManager->getRepository('User');
         $password = md5($password);
-        $findUser = $userRepo->findBy(array('username' => $username),array(), 1);
+        $findUser = $userRepo->findBy(array('username' => $username), array(), 1);
 
         if (sizeof($findUser) == 1) {
             $user = $findUser[0];
@@ -84,7 +84,7 @@ class Model {
 
         $password = md5($password);
 
-        $findUser = $userRepo->findBy( array('username' => $username));
+        $findUser = $userRepo->findBy(array('username' => $username));
 
         if (sizeof($findUser) == 0 && sizeof(Controller::$registerError) == 0) {
             $newUser = new User();
@@ -101,7 +101,7 @@ class Model {
             return true;
 
         } else {
-            array_push(Controller::$registerError, "Der Username '".$username."' ist bereits vorhanden");
+            array_push(Controller::$registerError, "Der Username '" . $username . "' ist bereits vorhanden");
             return false;
         }
 
@@ -116,7 +116,7 @@ class Model {
         global $entityManager;
 
         $contestRepo = $entityManager->getRepository('Contest');
-        $allEntries = $contestRepo ->findAll();
+        $allEntries = $contestRepo->findAll();
 
         $entries = array();
 
@@ -137,25 +137,30 @@ class Model {
         return $entries;
     }
 
-     public static function searchContest($name) {
+    public static function searchContest($name) {
 
-            global $entityManager;
+        global $entityManager;
 
-                    $contestRepo = $entityManager->getRepository('Contest');
-                    $entry->findBy( array('name' => $name));
+        $contestRepo = $entityManager->getRepository('Contest');
+        $allEntries = $contestRepo->findBy(array('name' => $name));
 
-                    if (isset($entry) && $entry instanceof Contest) {
-                                return array(
-                                    "id" => $entry->getId(),
-                                    "description" => $entry->getDescription(),
-                                    "name" => $entry->getName(),
-                                    "starts_at" => date_format($entry->getStartsAt(), 'd.m.Y H:i'),
-                                    "ends_at" => date_format($entry->getEndsAt(), 'd.m.Y H:i'),
-                                    "image_url" => $entry->getImageUrl()
-                                );
-                    }
-                    return null;
+        $entries = array();
+
+        // Alle Zeilen auslesen und in das Array $entries schreiben:
+        foreach ($allEntries as $entry) {
+            if ($entry instanceof Contest) {
+                $entries[] = array(
+                    "id" => $entry->getId(),
+                    "description" => $entry->getDescription(),
+                    "name" => $entry->getName(),
+                    "starts_at" => date_format($entry->getStartsAt(), 'd.m.Y H:i'),
+                    "ends_at" => date_format($entry->getEndsAt(), 'd.m.Y H:i'),
+                    "image_url" => $entry->getImageUrl()
+                );
+            }
         }
+        return $entries;
+    }
 
 
     /**
@@ -167,7 +172,7 @@ class Model {
         global $entityManager;
 
         $contestRepo = $entityManager->getRepository('Contest');
-        $entry = $contestRepo ->find($id);
+        $entry = $contestRepo->find($id);
 
         if (isset($entry) && $entry instanceof Contest) {
             return array(
@@ -179,8 +184,33 @@ class Model {
                 "image_url" => $entry->getImageUrl()
             );
         }
-         return null;
+        return null;
 
+    }
+
+    public static function searchIdea($name) {
+
+        global $entityManager;
+
+        $ideaRepo = $entityManager->getRepository('Idea');
+        $allEntries = $ideaRepo->findBy(array('name' => $name));
+
+        $entries = array();
+
+        // Alle Zeilen auslesen und in das Array $entries schreiben:
+        foreach ($allEntries as $entry) {
+            if ($entry instanceof Idea) {
+                $entries[] = array(
+                    "id" => $entry->getId(),
+                    "description" => $entry->getDescription(),
+                    "name" => $entry->getName(),
+                    "contest_id" => $entry->getContestId(),
+                    "user_id" => $entry->getUserId(),
+                    "image_url" => $entry->getImageUrl()
+                );
+            }
+        }
+        return $entries;
     }
 
     public static function addContest($name, $description, $image_url, $starts_at, $ends_at) {
@@ -227,7 +257,7 @@ class Model {
         global $entityManager;
 
         $ideaRepo = $entityManager->getRepository('Idea');
-        $allEntries = $ideaRepo ->findBy(array('contest_id' => $contestId));
+        $allEntries = $ideaRepo->findBy(array('contest_id' => $contestId));
 
         $entries = array();
 
@@ -272,7 +302,7 @@ class Model {
         global $entityManager;
 
         $contestRepo = $entityManager->getRepository('Idea');
-        $entry = $contestRepo ->find($ideaId);
+        $entry = $contestRepo->find($ideaId);
 
         if (isset($entry) && $entry instanceof Idea) {
             return array(

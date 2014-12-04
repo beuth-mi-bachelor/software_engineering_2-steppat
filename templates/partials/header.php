@@ -25,7 +25,7 @@
     </nav>
     <h1 class="lead-headline">Ideenportal für Reha-Geräte</h1>
 
-    <form class="search-wrapper clearfix" action="index.php/?action=search" method="post">
+    <form class="search-wrapper clearfix" action="index.php?action=search" method="post">
         <input class="search-input" type="text" name="search" placeholder="Suchbegriff">
         <input class="search-send" type="submit" name="submit" value="suchen">
     </form>

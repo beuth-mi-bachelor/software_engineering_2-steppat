@@ -146,7 +146,6 @@ class Controller {
 
             case 'search':
                 if (isset($this->request["search"])) {
-                    //$model->searchContest($this->request["search"]);
                     $view->setTemplate('search');
                 }
                 else {

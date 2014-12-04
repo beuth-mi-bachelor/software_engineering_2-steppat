@@ -1,7 +1,6 @@
 <?php
 error_reporting(E_ALL ^ E_DEPRECATED);
 ini_set("display_errors", 1);
-
 session_start();
 ?>
 <!DOCTYPE HTML>
@@ -21,7 +20,7 @@ session_start();
 
     <link href='css/main.css' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <script src="js/lib/jquery-2.1.1.min.js"></script>
+    <script src="js/lib/jquery-2.1.1.min.js" type="text/javascript"></script>
 
 </head>
 <body class="reha-tool">

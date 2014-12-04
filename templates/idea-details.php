@@ -19,5 +19,9 @@ include("partials/header.php");
             <a href="index.php?action=idea-edit&id=<?php echo $ideaDetails["id"]; ?>" target="_self">Bearbeiten</a>
         </li>
 
+        <?php
+        include("partials/comment.php");
+        ?>
+
     </article>
 </main>

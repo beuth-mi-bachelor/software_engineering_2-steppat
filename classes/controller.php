@@ -110,6 +110,10 @@ class Controller {
                     $view->setTemplate('contest-details');
                 }
 
+                if(isset($this->request["add-comment"])) {
+                    Model::addComment($this->request["text"], $this->request["id"]);
+                }
+
                 break;
 
             case 'idea-edit':

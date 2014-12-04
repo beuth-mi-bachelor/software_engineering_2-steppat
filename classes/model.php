@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../entities/User.php";
 require_once __DIR__ . "/../entities/Contest.php";
 require_once __DIR__ . "/../entities/Idea.php";
+require_once __DIR__ . "/../entities/Comment.php";
 
 /**
  * Klasse für den Datenzugriff
@@ -49,6 +50,21 @@ class Model {
             }
         }
         return false;
+    }
+
+    public static function getUsernameById($user_id) {
+
+        global $entityManager;
+
+        $userRepo = $entityManager->getRepository('User');
+        $findUser = $userRepo->find($user_id);
+
+        if (sizeof($findUser) == 1) {
+            if ($findUser instanceof User) {
+                return $findUser->getUsername();
+            }
+        }
+        return null;
     }
 
     public static function isLoggedIn() {
@@ -334,6 +350,48 @@ class Model {
             return false;
         }
         return true;
+    }
+
+    public static function addComment($text, $idea_id) {
+
+        global $entityManager;
+
+        $comment = new Comment();
+        $comment->setIdeaId($idea_id);
+        $comment->setText($text);
+        $comment->setUserId($_SESSION["user-id"]);
+        try {
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        } catch (Doctrine\DBAL\DBALException $e) {
+            return false;
+        }
+        return true;
+
+    }
+
+    public static function getComments($ideaId) {
+
+        global $entityManager;
+
+        $commentRepo = $entityManager->getRepository('Comment');
+        $allEntries = $commentRepo->findBy(array('idea_id' => $ideaId));
+
+        $entries = array();
+
+        // Alle Zeilen auslesen und in das Array $entries schreiben:
+        foreach ($allEntries as $entry) {
+            if ($entry instanceof Comment) {
+                $entries[] = array(
+                    "id" => $entry->getId(),
+                    "text" => $entry->getText(),
+                    "created_at" => $entry->getCreatedAt(),
+                    "user_id" => $entry->getUserId(),
+                    "idea_id" => $entry->getIdeaId()
+                );
+            }
+        }
+        return $entries;
     }
 }
 

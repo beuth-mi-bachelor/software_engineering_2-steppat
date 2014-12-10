@@ -10,23 +10,9 @@ require_once __DIR__ . "/../entities/Comment.php";
  */
 class Model {
 
-    public static $DB_HOST = 'localhost';
-    public static $DB_NAME = 'se';
-    public static $DB_USER = 'se_ii';
-    public static $DB_PASSWORD = 'AMPDynamics';
-
     public static $currentViewContent = [];
     public static $contests = [];
     public static $ideas = [];
-
-    public static function openDatabase() {
-        $link = mysql_connect(self::$DB_HOST, self::$DB_USER, self::$DB_PASSWORD);
-        if (!$link) {
-            die("Kein Server gefunden");
-        }
-        mysql_select_db(self::$DB_NAME, $link) or die("Datenbank nicht gefunden");
-        return $link;
-    }
 
     /**
      * Login eines Users
@@ -36,13 +22,12 @@ class Model {
         global $entityManager;
 
         $userRepo = $entityManager->getRepository('User');
-        $password = md5($password);
         $findUser = $userRepo->findBy(array('username' => $username), array(), 1);
 
         if (sizeof($findUser) == 1) {
             $user = $findUser[0];
             if ($user instanceof User) {
-                if ($user->getPassword() == $password) {
+                if (Model::checkPassword($user, $password)) {
                     $_SESSION["username"] = $username;
                     $_SESSION["user-id"] = $user->getId();
                     return true;
@@ -50,6 +35,52 @@ class Model {
             }
         }
         return false;
+    }
+
+    public static function checkPassword($user, $password) {
+        if(!function_exists('hash_equals')) {
+
+            function hash_equals($str1, $str2) {
+                if(strlen($str1) != strlen($str2)) {
+                    return false;
+                } else {
+                    $res = $str1 ^ $str2;
+                    $ret = 0;
+                    for($i = strlen($res) - 1; $i >= 0; $i--) $ret |= ord($res[$i]);
+                    return !$ret;
+                }
+            }
+        }
+
+        if ($user instanceof User) {
+            $salt = sprintf("$2a$%02d$", 10) . $user->getHash();
+
+            if ( hash_equals($user->getPassword(), crypt($password, $salt)) ) {
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
+    }
+
+    public static function hashPassword($password, $salt) {
+
+        // A higher "cost" is more secure but consumes more processing power
+        $cost = 10;
+
+        // Prefix information about the hash so PHP knows how to verify it later.
+        // "$2a$" Means we're using the Blowfish algorithm. The following two digits are the cost parameter.
+        $salt = sprintf("$2a$%02d$", $cost) . $salt;
+
+        // Hash the password with the salt
+        return crypt($password, $salt);
+
+    }
+
+    public static function generateSalt() {
+        // Create a random salt
+        return strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
     }
 
     public static function getUsernameById($user_id) {
@@ -98,15 +129,20 @@ class Model {
             array_push(Controller::$registerError, "Das Passwort darf nicht leer sein!");
         }
 
-        $password = md5($password);
+
 
         $findUser = $userRepo->findBy(array('username' => $username));
 
         if (sizeof($findUser) == 0 && sizeof(Controller::$registerError) == 0) {
+
+            $salt = Model::generateSalt();
+            $password = Model::hashPassword($password, $salt);
+
             $newUser = new User();
             $newUser->setUsername($username);
             $newUser->setPassword($password);
             $newUser->setEmail($email);
+            $newUser->setHash($salt);
 
             try {
                 $entityManager->persist($newUser);

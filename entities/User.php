@@ -12,6 +12,8 @@ class User
     protected $email;
     /** @Column(type="string", unique=false) **/
     protected $password;
+    /** @Column(type="string", unique=false) **/
+    protected $hash;
     /** @gedmo:Timestampable(on="create") **/
     /** @Column(type="datetime", unique=false) **/
     protected $created_at;
@@ -21,6 +23,20 @@ class User
     public function __construct() {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHash() {
+        return $this->hash;
+    }
+
+    /**
+     * @param mixed $hash
+     */
+    public function setHash($hash) {
+        $this->hash = $hash;
     }
 
     public function getId(){

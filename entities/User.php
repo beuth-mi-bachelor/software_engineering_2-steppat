@@ -19,10 +19,26 @@ class User
     protected $created_at;
     /** @Column(type="datetime", unique=false) **/
     protected $updated_at;
+    /** @Column(type="integer", unique=false) **/
+    protected $role_id;
 
     public function __construct() {
         $this->setCreatedAt(new \DateTime());
         $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoleId() {
+        return $this->role_id;
+    }
+
+    /**
+     * @param mixed $role_id
+     */
+    public function setRoleId($role_id) {
+        $this->role_id = $role_id;
     }
 
     /**

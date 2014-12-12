@@ -4,6 +4,7 @@ include("partials/header.php");
 <main class="content-wrapper">
     <article class="inner-content-wrapper">
         <h2 class="title">Neuer Wettbewerb</h2>
+        <?php if (Model::isAdmin() || Model::isManager()) : ?>
         <form id="form" action="index.php?action=contest-new" method="post">
             <fieldset>
                 <legend>Daten des Wettbewerbs</legend>
@@ -25,5 +26,9 @@ include("partials/header.php");
             </fieldset>
             <button type="submit" class="sub"><span>Wettbewerb erstellen</span></button>
         </form>
+        <?php endif; ?>
+        <?php if (!Model::isAdmin() && !Model::isManager()) : ?>
+            <p>Sie müssen als Manager oder Administrator eingeloggt sein, um Wettbewerbe erstellen zu können.</p>
+        <?php endif; ?>
     </article>
 </main>

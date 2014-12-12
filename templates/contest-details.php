@@ -5,6 +5,7 @@ include("partials/header.php");
     <article class="inner-content-wrapper">
         <h2 class="title">Wettbewerb Detailansicht</h2>
 
+
         <?php
             global $controller;
             $request = $controller->request;
@@ -21,8 +22,11 @@ include("partials/header.php");
                 <p class="starts_at"><?php echo $contestDetails["starts_at"]; ?></p>
                 <p class="ends_at"><?php echo $contestDetails["ends_at"]; ?></p>
                 <p class="description"><?php echo $contestDetails["description"]; ?></p>
-                <input type="button" name="edit" value="Bearbeiten"
+                <?php if (Model::isAdmin() || Model::isManager()) : ?>
+                    <input type="button" name="edit" value="Bearbeiten"
                        onClick="self.location.href='index.php?action=contest-edit&id=<?php echo $contestDetails["id"]; ?>'">
+                <?php endif; ?>
+
                 <input type="button" name="new_idea" value="Neue Idee"
                        onClick="self.location.href='index.php?action=idea-new&id=<?php echo $contestDetails["id"]; ?>'">
             </section>

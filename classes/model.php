@@ -4,6 +4,7 @@ require_once __DIR__ . "/../entities/User.php";
 require_once __DIR__ . "/../entities/Contest.php";
 require_once __DIR__ . "/../entities/Idea.php";
 require_once __DIR__ . "/../entities/Comment.php";
+require_once __DIR__ . "/../entities/Role.php";
 
 /**
  * Klasse für den Datenzugriff
@@ -105,6 +106,38 @@ class Model {
         return false;
     }
 
+    public static function isAdmin() {
+        global $entityManager;
+
+        $userRepo = $entityManager->getRepository('User');
+        $findUser = $userRepo->findBy(array('username' => $_SESSION["username"]), array(), 1);
+
+        if (sizeof($findUser) == 1) {
+            $user = $findUser[0];
+            if ($user instanceof User) {
+                return $user->getRoleId() == 99;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public static function isManager() {
+        global $entityManager;
+
+        $userRepo = $entityManager->getRepository('User');
+        $findUser = $userRepo->findBy(array('username' => $_SESSION["username"]), array(), 1);
+
+        if (sizeof($findUser) == 1) {
+            $user = $findUser[0];
+            if ($user instanceof User) {
+                return $user->getRoleId() == 1;
+            }
+            return false;
+        }
+        return false;
+    }
+
     /**
      * Registrieren eines Users
      */
@@ -129,9 +162,8 @@ class Model {
             array_push(Controller::$registerError, "Das Passwort darf nicht leer sein!");
         }
 
-
-
         $findUser = $userRepo->findBy(array('username' => $username));
+
 
         if (sizeof($findUser) == 0 && sizeof(Controller::$registerError) == 0) {
 
@@ -140,6 +172,7 @@ class Model {
 
             $newUser = new User();
             $newUser->setUsername($username);
+            $newUser->setRoleId(0);
             $newUser->setPassword($password);
             $newUser->setEmail($email);
             $newUser->setHash($salt);
@@ -269,6 +302,10 @@ class Model {
 
         global $entityManager;
 
+        if (!Model::isAdmin() || !Model::isManager()) {
+            return false;
+        }
+
         $contest = new Contest();
         $contest->setDescription($description);
         $contest->setEndsAt(new DateTime($ends_at));
@@ -285,6 +322,10 @@ class Model {
     }
 
     public static function updateContest($contestId, $name, $description, $image_url, $starts_at, $ends_at) {
+
+        if (!Model::isAdmin() || !Model::isManager()) {
+            return false;
+        }
 
         global $entityManager;
 
@@ -371,7 +412,18 @@ class Model {
     }
 
     public static function updateIdea($ideaId, $name, $description, $image_url) {
+
         global $entityManager;
+
+
+        $ideaRepo = $entityManager->getRepository('Idea');
+        $entry = $ideaRepo->find($ideaId);
+
+        if (sizeof($entry) != 0) {
+            if ($entry->getUserId() !== $_SESSION["user-id"] || !Model::isAdmin() || !Model::isManager()) {
+                return false;
+            }
+        }
 
         $idea = new Idea();
         $idea->setDescription($description);

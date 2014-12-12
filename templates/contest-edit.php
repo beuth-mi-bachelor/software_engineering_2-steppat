@@ -5,11 +5,12 @@ include("partials/header.php");
     <article class="inner-content-wrapper">
         <h2 class="title">Wettbewerb bearbeiten</h2>
         <?php
-                    global $controller;
-                    $request = $controller->request;
-                    $contestDetails = Model::getContest($request["id"]);
+            global $controller;
+            $request = $controller->request;
+            $contestDetails = Model::getContest($request["id"]);
 
-                ?>
+        ?>
+        <?php if (Model::isAdmin() || Model::isManager()) : ?>
         <form id="form" action="index.php?action=contest-edit&id=<?php echo $request["id"]; ?>" method="post">
             <fieldset>
                 <legend>Daten des Wettbewerbs</legend>
@@ -31,5 +32,9 @@ include("partials/header.php");
             </fieldset>
             <button type="submit" class="sub"><span>Wettbewerb speichern</span></button>
         </form>
+        <?php endif; ?>
+        <?php if (!Model::isAdmin() && !Model::isManager()) : ?>
+            <p>Sie müssen als Manager oder Administrator eingeloggt sein, um Wettbewerbe bearbeiten zu können.</p>
+        <?php endif; ?>
     </article>
 </main>

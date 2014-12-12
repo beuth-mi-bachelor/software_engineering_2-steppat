@@ -6,6 +6,7 @@
 
             if (Controller::$registerInfo) {
                 echo '<em>Sie wurden erfolgreich registriert. Ein Administrator wird Sie demnächst freischalten. Sie erhalten dann umgegehend eine Bestätigungsmail!</em>';
+                echo '<a href="index.php?action=login" target="_self">Zum Login</a>';
             } else {
                 foreach(Controller::$registerError as $error ) {
                     echo '<em class="error">' . $error . '</em>';

@@ -11,7 +11,10 @@ pre {
     white-space: normal;
     font-size: 1em;
 }
-
+p {
+    white-space: pre;
+    padding: 10px;
+}
 input,
 textarea {
     width: 300px;
@@ -131,6 +134,18 @@ textarea {
     float: right;
     margin: 0;
     padding: 0;
+    width: 25%;
+    position: relative;
+    min-height: 1px;
+}
+.head .col-sm-3 .navbar-form {
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-left: 0;
+    border: 0;
+    box-shadow: none;
 }
 .head .logo img {
     height: 100%;

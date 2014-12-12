@@ -1,3 +1,4 @@
+<?php global $request; ?>
 <header class="head top clearfix">
     <a class="logo" href="index.php" target="_self"><img class="left logo" src="http://placehold.it/100x100" alt="Logo links"/></a>
     <nav>
@@ -9,12 +10,16 @@
                     <li class="nav-item">
                         <a href="index.php?action=contest-overview" target="_self">Wettbewerbe</a>
                     </li>
+                    <?php if (Model::isAdmin() || Model::isManager()) : ?>
                     <li class="nav-item">
                         <a href="index.php?action=contest-new" target="_self">Neuer Wettbewerb</a>
                     </li>
+                    <?php endif; ?>
+                    <?php if (isset($request["id"])) : ?>
                     <li class="nav-item">
-                        <a href="index.php?action=idea-new" target="_self">Neue Idee</a>
+                        <a href="index.php?action=idea-new&id=<?php echo $request["id"]; ?>" target="_self">Neue Idee</a>
                     </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a href="index.php?action=logout" target="_self">Logout</a>
                     </li>

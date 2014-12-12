@@ -45,7 +45,6 @@ class Controller {
         }
 
         switch ($this->action) {
-            // TODO: Implement all cases where template-files are created
 
             case 'login':
                 if ($model->isLoggedIn()) {
@@ -72,11 +71,15 @@ class Controller {
                 break;
 
             case 'contest-new':
-                if (sizeof($this->request) > 1) {
-                    $model->addContest($this->request["name"], $this->request["description"], $this->request["image_url"], $this->request["starts_at"], $this->request["ends_at"]);
-                    $view->setTemplate('contest-overview');
+                if (Model::isAdmin() || Model::isManager()) {
+                    if (sizeof($this->request) > 1) {
+                        $model->addContest($this->request["name"], $this->request["description"], $this->request["image_url"], $this->request["starts_at"], $this->request["ends_at"]);
+                        $view->setTemplate('contest-overview');
+                    } else {
+                        $view->setTemplate('contest-new');
+                    }
                 } else {
-                    $view->setTemplate('contest-new');
+                    $view->setTemplate('contest-overview');
                 }
                 break;
 
@@ -90,17 +93,17 @@ class Controller {
                 break;
 
             case 'contest-edit':
-
-                 if (sizeof($this->request) > 2) {
+                 if (sizeof($this->request) > 2 && (Model::isAdmin() || Model::isManager())) {
                    $model->updateContest($this->request["id"], $this->request["name"], $this->request["description"], $this->request["image_url"], $this->request["starts_at"], $this->request["ends_at"]);
                    $view->setTemplate('contest-overview');
                    }
-                   else if (isset($this->request["id"])) {
-                                      $view->setTemplate('contest-edit');
-                                      }
+                   else if (isset($this->request["id"]) && (Model::isAdmin() || Model::isManager())) {
+                        $view->setTemplate('contest-edit');
+                   }
                    else {
                    $view->setTemplate('contest-overview');
                    }
+
                    break;
 
             case 'idea-details':

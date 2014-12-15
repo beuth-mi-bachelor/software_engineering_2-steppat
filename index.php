@@ -1,12 +1,12 @@
 <?php
-error_reporting(E_ALL ^ E_DEPRECATED);
-ini_set("display_errors", 1);
-session_start();
+    error_reporting(E_ALL ^ E_DEPRECATED);
+    ini_set("display_errors", 1);
+    session_start();
 ?>
 <!DOCTYPE HTML>
 <html lang="de">
 <head>
-    <title>Reha Tool: Login</title>
+    <title>Reha Tool: Dein Portal für kreative Ideen</title>
 
     <meta charset="utf-8">
     <meta name="description" lang="de"
@@ -25,35 +25,34 @@ session_start();
 </head>
 <body class="reha-tool">
 
-<?php
+    <?php
 
-// Klassen einbinden
-require_once('classes/controller.php');
-require_once('classes/model.php');
-require_once('classes/view.php');
+        // Klassen einbinden
+        require_once('classes/controller.php');
+        require_once('classes/model.php');
+        require_once('classes/view.php');
 
-require_once "bootstrap.php";
+        require_once "bootstrap.php";
 
-//getting the EntityManager
+        // $_GET und $_POST zusammenfassen
+        $request = array_merge($_GET, $_POST);
 
+    ?>
 
-// $_GET und $_POST zusammenfassen
-$request = array_merge($_GET, $_POST);
+    <pre>
+        <span>Debug-Messages</span>
+        <?php
+            var_dump($request);
+        ?>
+    </pre>
 
-?>
+    <?php
+        // Controller erstellen
+        $controller = new Controller($request);
+        // Inhalt der Webanwendung ausgeben
+        echo $controller->display();
 
-<pre>
-    <span>Debug-Messages</span>
-    <?php var_dump($request); ?>
-</pre>
-
-<?php
-// Controller erstellen
-$controller = new Controller($request);
-// Inhalt der Webanwendung ausgeben
-echo $controller->display();
-
-?>
+    ?>
 
 <script type="text/javascript" src="js/app.js"></script>
 </body>

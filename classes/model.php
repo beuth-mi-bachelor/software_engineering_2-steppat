@@ -302,7 +302,7 @@ class Model {
 
         global $entityManager;
 
-        if (!Model::isAdmin() || !Model::isManager()) {
+        if (!Model::isAdmin() && !Model::isManager()) {
             return false;
         }
 

@@ -5,6 +5,7 @@ require_once __DIR__ . "/../entities/Contest.php";
 require_once __DIR__ . "/../entities/Idea.php";
 require_once __DIR__ . "/../entities/Comment.php";
 require_once __DIR__ . "/../entities/Role.php";
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Klasse für den Datenzugriff
@@ -14,7 +15,12 @@ class Model {
     public static $currentViewContent = [];
     public static $contests = [];
     public static $ideas = [];
+    private $entityManager;
 
+    public function __construct(ObjectManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     /**
      * Login eines Users
      */
@@ -253,13 +259,14 @@ class Model {
      * @param int $id Id des gesuchten Wettbewerb-Eintrags
      * @return Array Array, dass einen Eintrag repräsentiert, bzw. wenn dieser nicht vorhanden ist, null.
      */
-    public static function getContest($id) {
-        global $entityManager;
+    public function getContest($id) {
+        //global $entityManager;
 
-        $contestRepo = $entityManager->getRepository('Contest');
+        $contestRepo = $this->entityManager->getRepository('Contest');
         $entry = $contestRepo->find($id);
 
         if (isset($entry) && $entry instanceof Contest) {
+
             return array(
                 "id" => $entry->getId(),
                 "description" => $entry->getDescription(),

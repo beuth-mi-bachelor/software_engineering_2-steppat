@@ -24,9 +24,10 @@ class Controller {
      * @return String Inhalt des Templates
      */
     public function display() {
+        global $entityManager;
 
         $view = new View();
-        $model = new Model();
+        $model = new Model($entityManager);
 
         if (isset($this->request['username']) && isset($this->request['password']) && $this->action != 'register') {
             $logininfo = $model->login($this->request['username'], $this->request['password']);

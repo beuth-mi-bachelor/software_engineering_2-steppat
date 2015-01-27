@@ -30,7 +30,7 @@ class GeneralTest extends PHPUnit_Framework_TestCase {
 
         $args = array(1, 2, 3, 4);
 
-       $this->assertCount($expectedParamCount, $args);
+       $this->assertTrue(sizeOf($args) == $expectedParamCount, "Anzahl der Parameter zu groß");
 
     }
 

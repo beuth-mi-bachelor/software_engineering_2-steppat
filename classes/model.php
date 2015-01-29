@@ -15,12 +15,7 @@ class Model {
     public static $currentViewContent = [];
     public static $contests = [];
     public static $ideas = [];
-    private $entityManager;
 
-    public function __construct(ObjectManager $entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
     /**
      * Login eines Users
      */
@@ -260,9 +255,9 @@ class Model {
      * @return Array Array, dass einen Eintrag repräsentiert, bzw. wenn dieser nicht vorhanden ist, null.
      */
     public function getContest($id) {
-        //global $entityManager;
+        global $entityManager;
 
-        $contestRepo = $this->entityManager->getRepository('Contest');
+        $contestRepo = $entityManager->getRepository('Contest');
         $entry = $contestRepo->find($id);
 
         if (isset($entry) && $entry instanceof Contest) {
